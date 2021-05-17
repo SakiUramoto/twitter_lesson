@@ -1,14 +1,22 @@
 import React,{useState,useEffect} from 'react';
 import { Counter } from './features/counter/Counter';
 import './App.css';
+import CleanUp from './CleanUp';
 
 const App:React.FC = () => {
   const [status,setStatus]=useState<string | number>("text");
   const [input,setInput]=useState("");
+  const [counter,setCounter]= useState(0);
+  const [display,setDisplay] =useState(true);
 
-  const onChageHandler=(e:)=>{
+  const onChageHandler=(e:React.ChangeEvent<HTMLInputElement>)=>{
     setInput(e.target.value)
   }
+  useEffect(()=>{
+
+    console.log("useEffect in App invoked !");
+    document.title=`current value is ${counter}`;
+  },[counter]);
   
   return (
     <div className="App">
@@ -17,7 +25,12 @@ const App:React.FC = () => {
         <button onClick={()=>setStatus(1)}>Button</button>
         <h4>{input}</h4>
         <input type="text" value={input} onChange={onChageHandler}/>
-        
+        <h4>{counter}</h4>
+        <button onClick={()=>setCounter((preCounter)=>preCounter+1)}>
+          Increment
+          </button>
+          {display && <CleanUp/>}
+          <button onClick={()=>setDisplay(!display)}>Toggle display</button>
     
         <Counter />
         <p>
